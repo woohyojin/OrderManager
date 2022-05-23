@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.example.ordercockstore.DTO.Manager;
 import com.example.ordercockstore.DTO.OrderMenu;
 import com.example.ordercockstore.DTO.User;
+import com.example.ordercockstore.Login.LoginFragment;
 import com.example.ordercockstore.Socket.Protocol;
 import com.example.ordercockstore.Socket.service_Socket;
+import com.example.ordercockstore.ui.MenuListFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
@@ -86,12 +89,12 @@ public class MainActivity extends AppCompatActivity {
                 settingUser(user);
                 settingMenu(menulist);
 
-                //loginCheckChange();
+                loginCheckChange();
 
             } else if (line[0].compareTo(Protocol.LOGOUT) == 0) {
                 user = null;
                 loginCheck = false;
-                //fragmentLogin();
+                fragmentLogin();
             }
         }
     };
@@ -129,33 +132,19 @@ public class MainActivity extends AppCompatActivity {
 
     // ===================> 플래그먼트 컨트롤 <===================
 
-//    public void fragmentSignUp() {
-//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//        ft.replace(R.id.nav_host_fragment_content_main, new SignupFragment());
-//        ft.addToBackStack(null);
-//        ft.commit();
-//    }
-//
-//    public void fragmentSignIn() {
-//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//        ft.replace(R.id.nav_host_fragment_content_main, new LoginFragment());
-//        ft.addToBackStack(null);
-//        ft.commit();
-//    }
-//
-//    public void fragmentMain() {
-//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//        ft.replace(R.id.nav_host_fragment_content_main, new HomeFragment());
-//        ft.addToBackStack(null);
-//        ft.commit();
-//    }
-//
-//    public void fragmentLogin() {
-//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//        ft.replace(R.id.nav_host_fragment_content_main, new LoginFragment());
-//        ft.addToBackStack(null);
-//        ft.commit();
-//    }
+    public void fragmentMenuList() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.store_fragment, new MenuListFragment());
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
+    public void fragmentLogin() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.store_fragment, new LoginFragment());
+        ft.addToBackStack(null);
+        ft.commit();
+    }
 
     // ===============> 데이터체크 <===============
     public boolean loginCheck() {
@@ -166,9 +155,9 @@ public class MainActivity extends AppCompatActivity {
         return context;
     }
 
-//    public void loginCheckChange() {
-//        loginCheck = true;
-//        fragmentMain();
-//    }
+    public void loginCheckChange() {
+        loginCheck = true;
+        fragmentMenuList();
+    }
 
 }
