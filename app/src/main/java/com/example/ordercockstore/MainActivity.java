@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -27,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     service_Socket socket;
     private static Context context;
 
-    User user = new User();
     OrderMenu menu = new OrderMenu();
     Manager manager = new Manager();
     Manager thisManager = new Manager();
@@ -44,11 +44,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MainActivity.context = getApplicationContext();
 
         fragmentManager = getSupportFragmentManager();
         transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.frame_layout, new LoginFragment());
         transaction.commit();
+
+        Intent intent = new Intent(this, service_Socket.class);
+        intent.putExtra("inputExtra","하이");
+        ContextCompat.startForegroundService(this,intent);
 
     }
 
@@ -82,36 +87,32 @@ public class MainActivity extends AppCompatActivity {
             //CallYourMethod(message); 실행시킬 메소드를 전달 받은 데이터를 담아 호출하려면 이렇게 한다.
             String line[] = message.split("\\|");
             System.out.println(line[0]);
-            if (line[0].compareTo(Protocol.ENTERLOGIN_OK) == 0) {
+            if (line[0].compareTo(Protocol.MANAGER_LOGIN_OK) == 0) {
                 check++;
-                Type usertype = new TypeToken<User>() {
-                }.getType();
                 Type menutype = new TypeToken<ArrayList<OrderMenu>>() {
                 }.getType();
                 Type marketype = new TypeToken<ArrayList<Manager>>() {
                 }.getType();
-                System.out.println("라인안" + line[8]);
-                User user = new Gson().fromJson(line[2], usertype);
-                ArrayList<OrderMenu> menulist = new Gson().fromJson(line[4], menutype);
-                ArrayList<Manager> marketlist = new Gson().fromJson(line[8], marketype);
+                Manager manager = new Gson().fromJson(line[1], marketype);
+                ArrayList<OrderMenu> menulist = new Gson().fromJson(line[2], menutype);
 
-                settingUser(user);
+                settingUser(manager);
                 settingMenu(menulist);
 
                 loginCheckChange();
 
             } else if (line[0].compareTo(Protocol.LOGOUT) == 0) {
-                user = null;
+                manager = null;
                 loginCheck = false;
                 fragmentLogin();
             }
         }
     };
 
-    public User settingUser(User user) {
-        if (user != null)
-            this.user = user;
-        return this.user;
+    public Manager settingUser(Manager manager) {
+        if (manager != null)
+            this.manager = manager;
+        return this.manager;
     }
 
     public ArrayList<OrderMenu> settingMenu(ArrayList<OrderMenu> menulist) {
@@ -136,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public static Context getContext() {
-        return context.getApplicationContext();
+        return context;
     }
 
     // ===================> 플래그먼트 컨frame_layout트롤 <===================
@@ -165,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loginCheckChange() {
+        System.out.println("체크용!!!!!!!!!!!!!!!!!!!!!1");
         loginCheck = true;
         fragmentMenuList();
     }

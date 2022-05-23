@@ -1,6 +1,11 @@
 package com.example.ordercockstore.Socket;
 
 public class Protocol {
+    public static final String MARKET_LOGIN = "90"; // 마켓로그인(request)
+
+    public static final String MANAGER_LOGIN_OK = "91"; // finally 드디어라는뜻
+
+    public static final String MANAGER_LOGIN_NO = "99"; // faill 실패라는뜻
 
     public static final String REGISTER = "100"; // 회원가입(request)
 

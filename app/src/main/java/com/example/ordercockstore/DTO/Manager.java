@@ -3,32 +3,25 @@ package com.example.ordercockstore.DTO;
 public class Manager {
 	private String name;
 	private String tel;
+	private String id;
+	private String pw;
 	private String market;
 	private String Adress;
 	private float x;
 	private float y;
-
-	private int imageResource;
-
-
-	public int getImageResource() {
-		return imageResource;
+	
+	public String getId() {
+		return id;
 	}
-
-	public void setImageResource(int imageResource) {
-		this.imageResource = imageResource;
+	public void setId(String id) {
+		this.id = id;
 	}
-
-	public Manager(String market, String Adress,int imageResource) {
-		this.market=market;
-		this.Adress=Adress;
-		this.imageResource=imageResource;
-
+	public String getPw() {
+		return pw;
 	}
-	public Manager(){
-
+	public void setPw(String pw) {
+		this.pw = pw;
 	}
-
 	public String getName() {
 		return name;
 	}
@@ -65,7 +58,6 @@ public class Manager {
 	public void setY(float y) {
 		this.y = y;
 	}
-
 	@Override
 	public String toString() {
 		return "Manager [name=" + name + ", tel=" + tel + ", market=" + market + ", Adress=" + Adress + ", x=" + x

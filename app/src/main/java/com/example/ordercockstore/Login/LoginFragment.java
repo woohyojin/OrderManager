@@ -28,7 +28,6 @@ public final class LoginFragment extends Fragment {
     EditText password;
 
     Button signin;
-    Button signup;
     Button btn;
 
 
@@ -40,13 +39,12 @@ public final class LoginFragment extends Fragment {
             ((MainActivity) getActivity()).fragmentMenuList();
         }
 
+        signin = (Button) root.findViewById(R.id.button_signin);
+
         id = (EditText) root.findViewById(R.id.et_username);
         password = (EditText) root.findViewById(R.id.et_password);
 
-
-
         signin.setOnClickListener(onclick);
-        signup.setOnClickListener(onclick);
 
         EditText id = (EditText) root.findViewById(R.id.et_username);
         EditText password = (EditText) root.findViewById(R.id.et_password);
@@ -61,13 +59,12 @@ public final class LoginFragment extends Fragment {
     class OnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            if (view.getId() == R.id.button_signin) {
                 if (view.getId() == R.id.button_signin) {
                     Intent intent = new Intent(getContext(), service_Socket.class);
-                    intent.putExtra("pw", Protocol.LOGIN + "|" + id.getText().toString() + "|" + password.getText().toString());
+                    intent.putExtra("pw", Protocol.MARKET_LOGIN + "|" + id.getText().toString() + "|" + password.getText().toString());
                     getActivity().startService(intent);
                 }
-            }
+
         }
 
         private final void setStatusBarTransparent(AppCompatActivity activity) {
