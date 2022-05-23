@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.example.ordercockstore.DTO.Manager;
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     OrderMenu menu = new OrderMenu();
     Manager manager = new Manager();
     Manager thisManager = new Manager();
+    private FragmentManager fragmentManager;
+    private FragmentTransaction transaction;
 
     private ArrayList<OrderMenu> orderMenuList = new ArrayList<OrderMenu>();
 
@@ -40,7 +43,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MainActivity.context = getApplicationContext();
+        setContentView(R.layout.activity_main);
+
+        fragmentManager = getSupportFragmentManager();
+        transaction = fragmentManager.beginTransaction();
+        transaction.add(R.id.frame_layout, new LoginFragment());
+        transaction.commit();
+
     }
 
     public void setThisManager(String market) {
@@ -130,18 +139,18 @@ public class MainActivity extends AppCompatActivity {
         return context.getApplicationContext();
     }
 
-    // ===================> 플래그먼트 컨트롤 <===================
+    // ===================> 플래그먼트 컨frame_layout트롤 <===================
 
     public void fragmentMenuList() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.store_fragment, new MenuListFragment());
+        ft.replace(R.id.frame_layout, new MenuListFragment());
         ft.addToBackStack(null);
         ft.commit();
     }
 
     public void fragmentLogin() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.store_fragment, new LoginFragment());
+        ft.replace(R.id.frame_layout, new LoginFragment());
         ft.addToBackStack(null);
         ft.commit();
     }
